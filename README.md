@@ -36,11 +36,14 @@ The guide is split into 3 tracks:
 ## 🚀 How to Run It (Super Easy!)
 
 You don't need to install Node.js, `npm`, or any terminal tools to start!
-
+- Option 1:
 1. **Download / Clone** this project folder to your computer.
 2. Open the folder and find `index.html`.
 3. **Double-click `index.html`** to launch it in your web browser (Chrome, Firefox, Edge, Safari, etc.).
 4. *(Optional tip for VS Code users)*: Install the **Live Server** extension, right-click `index.html`, and select **"Open with Live Server"**!
+   
+- Option 2:
+Open the website https://vyshalip26.github.io/Javascript-Learning-Guide/
 
 ---
 
