@@ -30,6 +30,7 @@ The guide is split into 3 tracks:
 
 ### 🟣 Track 2: Browser Web Development & UI Motion
 *Learn how to bring web pages to life with interactive UI animations!* 
+
 ---
 
 ## 🚀 How to Run It (Super Easy!)
