@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0.3 Control Flow | JS ENGINE</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+        .code-block {
+            background: #1e1e24;
+            color: #50fa7b;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body data-lesson-id="t0-control-flow">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>0.3 Control Flow: `if`, `else` &amp; `switch`</h1>
+            <br>
+            <p>Control flow allows your code to make decisions. Depending on whether conditions evaluate to <code>true</code> or <code>false</code>, different code blocks are executed.</p>
+            
+            <div class="concept-card">
+                <h3>1. Strict Comparison (`===`) vs Loose (`==`)</h3>
+                <p>Always compare values using strict equality <code>===</code>:</p>
+                <ul>
+                    <li><code>5 === "5"</code> → <code>false</code> (Checks value AND <b>data type</b>!)</li>
+                    <li><code>5 == "5"</code> → <code>true</code> (Coerces string to number — dangerous!)</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. `if`, `else if`, and `else`</h3>
+                <div class="code-block">
+                    <pre>
+let score = 85;
+
+if (score >= 90) { 
+    console.log("Grade: A");  
+} else if (score >= 80) { 
+    console.log("Grade: B"); 
+} else { 
+    console.log("Grade: C"); 
+} </pre>
+            </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Ternary Operator (`condition ? a : b`)</h3>
+                <p>A concise one-line shorthand for simple if/else decisions:</p>
+                <div class="code-block">
+let age = 20; <br>
+let status = (age >= 18) ? "Adult" : "Minor";
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. Multi-Branch Decisions with `switch`</h3>
+                <p>When comparing a single variable against multiple exact values, <code>switch</code> is cleaner than multiple <code>else if</code> blocks:</p>
+                <div class="code-block">
+<pre>let day = "Monday"; 
+
+switch (day) { 
+    case "Monday": 
+        console.log("Start of week!"); 
+        break; // Exits switch block
+    case "Friday":
+        console.log("Weekend is near!");
+        break;
+    default:
+        console.log("Mid-week day");
+}</pre>
+                </div>
+            </div>
+
+            <!-- Key Points to Remember Box -->
+            <div class="key-points-box">
+                <h4><span>📌</span> KEY POINTS TO REMEMBER</h4>
+                <ul>
+                    <li><strong>Always use `===`</strong> instead of `==` to prevent unintended type conversion.</li>
+                    <li><strong>Remember `break` in `switch`:</strong> Forgetting `break;` causes execution to "fall through" into the next case regardless of whether it matches.</li>
+                    <li><strong>The 6 Falsy Values:</strong> <code>false</code>, <code>0</code>, <code>""</code> (empty string), <code>null</code>, <code>undefined</code>, and <code>NaN</code>. Every other value in JavaScript is Truthy.</li>
+                </ul>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="interactive-demo">
+                <h4>⚡ Interactive Visual: Switch Signal Router</h4>
+                <p style="font-size: 0.9rem; color: #ccc;">Select a traffic light signal to inspect which switch branch executes:</p>
+                
+                <div class="interactive-controls">
+                    <button class="demo-btn" onclick="testSwitch('RED')">Signal: "RED"</button>
+                    <button class="demo-btn" onclick="testSwitch('YELLOW')">Signal: "YELLOW"</button>
+                    <button class="demo-btn" onclick="testSwitch('GREEN')">Signal: "GREEN"</button>
+                    <button class="demo-btn" onclick="testSwitch('BLUE')">Signal: "BLUE" (Default)</button>
+                </div>
+
+                <div class="demo-output" id="switch-demo-output">Click a signal button above.</div>
+            </div>
+
+            <script>
+                function testSwitch(lightColor) {
+                    const out = document.getElementById('switch-demo-output');
+                    let action, matchCase;
+                    
+                    switch (lightColor) {
+                        case 'RED':
+                            matchCase = 'case "RED":';
+                            action = 'STOP immediately! [Break executed]';
+                            out.style.color = '#FF3333';
+                            break;
+                        case 'YELLOW':
+                            matchCase = 'case "YELLOW":';
+                            action = 'CAUTION: Prepare to stop! [Break executed]';
+                            out.style.color = '#FFCC00';
+                            break;
+                        case 'GREEN':
+                            matchCase = 'case "GREEN":';
+                            action = 'GO! Safe to proceed. [Break executed]';
+                            out.style.color = 'var(--success)';
+                            break;
+                        default:
+                            matchCase = 'default:';
+                            action = 'Unknown light signal! Hazard lights on. [Default executed]';
+                            out.style.color = 'var(--cream)';
+                    }
+                    
+                    out.innerText = `Evaluated Value: "${lightColor}"\nMatched Branch: ${matchCase}\nAction Taken: ${action}`;
+                }
+            </script>
+        </main>
+
+        <!-- Sandbox Panel -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Test conditionals and switch statements:</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+// 1. If / Else IF / Else Example
+let temperature = 28;
+
+if (temperature > 30) {
+    console.log("It's hot outside! ☀️");
+} else if (temperature >= 20) {
+    console.log("Weather is pleasant! 🌤️");
+} else {
+    console.log("It's chilly outside! ❄️");
+}
+
+// 2. Ternary Operator Example
+let userAge = 19;
+let canVote = (userAge >= 18) ? "Eligible to vote" : "Too young to vote";
+console.log("Voting Status:", canVote);
+
+// 3. Switch Case Example
+let userRole = "admin";
+
+switch (userRole) {
+    case "admin":
+        console.log("Access Granted: Full Control");
+        break;
+    case "editor":
+        console.log("Access Granted: Edit Content");
+        break;
+    default:
+        console.log("Access Granted: Read Only");
+}
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

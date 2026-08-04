@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0.1 JS Intro & Variables | JS Learning Guide</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+        .code-block {
+            background: #1e1e24;
+            color: #50fa7b;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body data-lesson-id="t0-intro">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>0.1 What is JavaScript &amp; Writing Variables</h1>
+            <br>
+            <p>Welcome to JavaScript! JavaScript is the programming language that powers interactive web pages, web servers, mobile apps, and modern applications worldwide.</p>
+            
+            <div class="concept-card">
+                <h3>1. How JavaScript Code Executes</h3>
+                <p>JavaScript reads and executes your instructions line-by-line from top to bottom. Each instruction is called a <strong>statement</strong>, usually ending with a semicolon "<code>;</code>" .</p>
+                <div class="code-block">
+// This is a single-line comment (ignored by JavaScript) <br> <br>
+/* This is a <br>
+   multi-line comment */ <br> <br>
+
+console.log("Hello, Beginner!"); // Prints message to console
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Variables: Declaring vs Assigning</h3>
+                <p>A <strong>variable</strong> is a named container in memory used to store data values. Creating a variable involves two parts:</p>
+                <ul>
+                    <li><strong>Declaration:</strong> Telling JS to reserve a memory slot (e.g. <code>let score;</code>)</li>
+                    <li><strong>Assignment:</strong> Storing a value inside that slot (e.g. <code>score = 100;</code>)</li>
+                </ul>
+                <p style="margin-top: 8px;">You can combine both steps: <code>let score = 100;</code></p>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. `const` vs `let` vs `var`</h3>
+                <p>JavaScript provides three keywords to declare variables:</p>
+                <ul>
+                    <li><code>const</code> (Constant): Value **cannot** be reassigned after declaration.</li>
+                    <li><code>let</code> (Block-scoped): Value **can** be reassigned anytime later.</li>
+                    <li><code>var</code> (Legacy): Old ES5 keyword with function-scoping bugs (avoid in modern JS!).</li>
+                </ul>
+            </div>
+
+            <!-- Key Points to Remember Box -->
+            <div class="key-points-box">
+                <h4><span>📌</span> KEY POINTS TO REMEMBER</h4>
+                <ul>
+                    <li><strong>Default to `const`</strong> for all variables unless you know the value will change later. Use <code>let</code> when reassignment is required.</li>
+                    <li><strong>Naming Rules:</strong> Variable names are case-sensitive (<code>userAge</code> ≠ <code>userage</code>). Use <code>camelCase</code> (e.g. <code>totalStudentCount</code>).</li>
+                    <li><strong>Illegal Names:</strong> Cannot start with a number (e.g. <code>123name</code> is invalid) and cannot contain spaces or reserved JS words like <code>let</code> or <code>function</code>.</li>
+                </ul>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="interactive-demo">
+                <h4>⚡ Interactive Visual: Variable Inspector</h4>
+                <p style="font-size: 0.9rem; color: #ccc;">Click buttons to simulate variable declarations and reassignments in memory:</p>
+                
+                <div class="interactive-controls">
+                    <button class="demo-btn" onclick="runVarDemo('const')">const name = "Alice"</button>
+                    <button class="demo-btn" onclick="runVarDemo('reassign-const')">Reassign const (Error!)</button>
+                    <button class="demo-btn" onclick="runVarDemo('let')">let count = 5; count = 10;</button>
+                </div>
+
+                <div class="demo-output" id="var-demo-output">State: Ready. Click a button above.</div>
+            </div>
+
+            <script>
+                function runVarDemo(type) {
+                    const out = document.getElementById('var-demo-output');
+                    if (type === 'const') {
+                        out.style.color = 'var(--success)';
+                        out.innerText = `[SUCCESS] Memory Slot Created!\nVariable: userName (const)\nValue: "Alice"\nStatus: Locked (Cannot reassign)`;
+                    } else if (type === 'reassign-const') {
+                        out.style.color = '#FF3333';
+                        out.innerText = `[TypeError] Assignment to constant variable!\nCannot change a "const" variable once defined.`;
+                    } else if (type === 'let') {
+                        out.style.color = 'var(--success)';
+                        out.innerText = `[SUCCESS] Mutable Memory Slot!\nInitial Value: count = 5\nReassigned Value: count = 10\nStatus: Successfully updated to 10`;
+                    }
+                }
+            </script>
+        </main>
+
+        <!-- Sandbox Panel -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Inspect and test basic variable declarations:</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+// 1. Declare a constant site name
+const siteName = "JavaScript Learning Guide";
+
+// 2. Declare a reassignable user score
+let userScore = 0;
+console.log("Initial Score:", userScore);
+
+// 3. Update score
+userScore = userScore + 50;
+console.log("Updated Score:", userScore);
+
+// 4. Print welcome summary
+console.log("Welcome to " + siteName + "! Your score is: " + userScore);
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

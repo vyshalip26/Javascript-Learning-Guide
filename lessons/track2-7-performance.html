@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Optimization </title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-lesson-id="t2-performance">
+
+    <div class="split-layout">
+        <!-- Content:  Performance  -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>Performance: Debouncing & Throttling</h1>
+            <br>
+            <p>Uncontrolled event listeners on high-frequency DOM events (like <code>scroll</code>, <code>resize</code>, and <code>keyup</code>) can trigger thousands of executions per second, overwhelming the main thread and causing severe UI lag (layout thrashing).</p>
+            
+            <div class="concept-card">
+                <h3>1. Debouncing (Quiet Period Trigger)</h3>
+                <p>Debouncing postpones function execution until a specified quiet period (e.g. 300ms) has elapsed since the <em>last invocation</em>. Every new call resets the timer. Perfect for search input autocomplete and window resize recalculations.</p>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Throttling (Fixed Rate Limiting)</h3>
+                <p>Throttling enforces a maximum execution frequency (e.g. once every 100ms), ignoring intermediate calls during the cooldown window. Perfect for infinite scrolling, game loops, and button mash prevention.</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            
+            <h2>The Challenge: Implement Debounce & Throttle</h2>
+            <p>Implement two higher-order rate limiting utilities from scratch:</p>
+            <ol>
+                <li><code>debounce(fn, delay)</code>: Uses <code>clearTimeout</code> and <code>setTimeout</code> to collapse rapid bursts into a single trailing execution.</li>
+                <li><code>throttle(fn, limit)</code>: Uses timestamp tracking or a boolean lock to guarantee execution at most once per <code>limit</code> milliseconds.</li>
+            </ol>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement debounce & throttle and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * Implement debounce(fn, delay)
+ */
+function debounce(fn, delay) {
+    let timer = null;
+    return function(...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
+}
+
+/**
+ * Implement throttle(fn, limit)
+ */
+function throttle(fn, limit) {
+    let lastRun = 0;
+    return function(...args) {
+        const now = Date.now();
+        if (now - lastRun >= limit) {
+            lastRun = now;
+            fn.apply(this, args);
+        }
+    };
+}
+
+// Test runs
+let debouncedCalls = 0;
+const processSearch = debounce(() => {
+    debouncedCalls++;
+    console.log("Debounced search executed!");
+}, 100);
+
+// Simulate 3 fast typing events:
+processSearch(); processSearch(); processSearch();
+console.log("Immediate debounced count (should be 0):", debouncedCalls);
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm); margin-bottom: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

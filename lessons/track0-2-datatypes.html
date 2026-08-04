@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0.2 Data Types & Coercion | JS ENGINE</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+
+        .term-error {
+            color: #FF3333;
+        }
+
+        .term-info {
+            color: var(--text-white);
+        }
+
+        .term-success {
+            color: var(--success);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #1e1e24;
+            color: #50fa7b;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body data-lesson-id="t0-datatypes">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>0.2 Primitive &amp; Complex Data Types</h1>
+            <br>
+            <p>Every piece of information in JavaScript has a <strong>Data Type</strong>. Understanding types and how
+                JavaScript automatically converts them is essential to writing bug-free code.</p>
+
+            <div class="concept-card">
+                <h3>1. The 7 Primitive Data Types</h3>
+                <p>Primitives are basic, single values stored directly in memory:</p>
+                <ul>
+                    <li><code>Number</code>: Integers and decimals (e.g. <code>42</code>, <code>3.14</code>,
+                        <code>-10</code>)
+                    </li>
+                    <li><code>String</code>: Text enclosed in quotes (e.g. <code>"Hello"</code>, <code>'JS'</code>,
+                        <code>`Template`</code>)
+                    </li>
+                    <li><code>Boolean</code>: Logical truth values (<code>true</code> or <code>false</code>)</li>
+                    <li><code>Undefined</code>: A variable declared but assigned no value yet</li>
+                    <li><code>Null</code>: Intentional empty value (explicitly empty)</li>
+                    <li><code>BigInt</code>: Super large integers beyond standard Number range</li>
+                    <li><code>Symbol</code>: Unique, immutable identifier</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Complex Types: Objects &amp; Arrays</h3>
+                <p>Unlike primitives, complex data structures can store multiple values grouped together:</p>
+                <div class="code-block">
+                    // Object: Key-Value pairs <br>
+                    let person = { name: "Alex", age: 25 }; <br> <br>
+
+                    // Array: Ordered list of values <br>
+                    let colors = ["Red", "Green", "Blue"];
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Type Coercion (Implicit vs Explicit)</h3>
+                <p>JavaScript is <strong>dynamically typed</strong>. Variables can hold any type, and JS often
+                    auto-converts types (Implicit Coercion):</p>
+                <ul>
+                    <li><code>"10" + 5</code> → <code>"105"</code> (Plus operator concatenates strings!)</li>
+                    <li><code>"10" - 5</code> → <code>5</code> (Minus operator forces numeric conversion!)</li>
+                    <li><strong>Explicit Conversion:</strong> <code>Number("10")</code>, <code>String(42)</code>,
+                        <code>Boolean(1)</code>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Key Points to Remember Box -->
+            <div class="key-points-box">
+                <h4><span>📌</span> KEY POINTS TO REMEMBER</h4>
+                <ul>
+                    <li><strong>`null` vs `undefined`:</strong> <code>undefined</code> means "uninitialized by system",
+                        whereas <code>null</code> means "deliberately cleared by programmer".</li>
+                    <li><strong>Historical JS Bug:</strong> <code>typeof null</code> returns <code>"object"</code> due
+                        to an early 1995 implementation quirk in JavaScript.</li>
+                    <li><strong>`typeof` operator:</strong> Use <code>typeof myVar</code> to check any variable's data
+                        type at runtime.</li>
+                </ul>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="interactive-demo">
+                <h4>⚡ Interactive Visual: Coercion &amp; Type Explorer</h4>
+                <p style="font-size: 0.9rem; color: #ccc;">Test how JS evaluates implicit coercion and check `typeof`
+                    outputs:</p>
+
+                <div class="interactive-controls">
+                    <button class="demo-btn" onclick="testType('5 + 2')">"5" + 2</button>
+
+                    <button class="demo-btn" onclick="testType('5 - 2')">"5" - 2</button>
+
+                    <button class="demo-btn" onclick="testType('typeof null')">typeof null</button>
+
+                    <button class="demo-btn" onclick="testType('Boolean(0)')">Boolean(0)</button>
+
+                    <button class="demo-btn" onclick="testType('Boolean(&quot;Code&quot;)')">Boolean("Code")</button>
+                </div>
+
+                <div class="demo-output" id="type-demo-output">Click any test button above.</div>
+            </div>
+
+            <script>
+                function testType(expression) {
+                    const out = document.getElementById('type-demo-output');
+                    out.style.color = 'var(--success)';
+                    let result;
+                    if (expression === '"5" + 2') result = "5" + 2;
+                    else if (expression === '"5" - 2') result = "5" - 2;
+                    else if (expression === 'typeof null') result = typeof null;
+                    else if (expression === 'Boolean(0)') result = Boolean(0);
+                    else if (expression === 'Boolean("Code")') result = Boolean("Code");
+
+                    out.innerText = `Expression: ${expression}\nEvaluated Result: ${result}\nResult Data Type: ${typeof result}`;
+                }
+            </script>
+        </main>
+
+        <!-- Sandbox Panel -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Inspect data types using typeof:</p>
+
+            <textarea id="code-editor" spellcheck="false">
+// 1. Primitive types
+let age = 25;              // Number
+let name = "Sarah";        // String
+let isActive = true;       // Boolean
+let unassignedVal;        // Undefined
+let emptyVal = null;       // Null
+
+console.log("age type:", typeof age);
+console.log("name type:", typeof name);
+console.log("isActive type:", typeof isActive);
+console.log("unassignedVal type:", typeof unassignedVal);
+console.log("emptyVal type:", typeof emptyVal);
+
+// 2. Type Coercion Demo
+console.log("\nImplicit Coercion:");
+console.log('"100" + 20 =', "100" + 20); // String concatenation
+console.log('"100" - 20 =', "100" - 20); // Numeric subtraction
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+
+</html>

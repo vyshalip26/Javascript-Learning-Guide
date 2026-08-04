@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Navigation & Manipulation</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>  
+</head>
+<body data-lesson-id="t2-dom-manipulation">
+    
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>DOM Navigation & Manipulation</h1>
+            <br>
+            <p>The <strong>Document Object Model (DOM)</strong> is an object-oriented tree representation of an HTML document, enabling programmatic inspection, modification, and styling of nodes.</p>
+            
+            <div class="concept-card">
+                <h3>1. Nodes vs Elements</h3>
+                <ul>
+                    <li><code>Node</code>: Base interface (includes Element nodes, Text nodes, Comment nodes, and Document node).</li>
+                    <li><code>Element</code>: Specifically HTML element tags (e.g. <code>DIV</code>, <code>BUTTON</code>). Properties like <code>children</code> filter out whitespace text nodes!</li>
+                </ul>
+            </div>
+                <!-- Additional Concept Card --> 
+            <div class="concept-card">
+                <h3>2. DOM Creation Core Methods</h3>
+                <ul>
+                    <li><code>document.createElement(tag)</code>: Creates a new HTML node in memory (e.g. <code>document.createElement('ul')</code>).</li>
+                    <li><code>element.textContent = text</code>: Assigns plain text content inside an element safely.</li>
+                    <li><code>parent.appendChild(child)</code>: Appends a child element node as the last child of a parent node.</li>
+                </ul>
+            </div>
+            <!-- Additional Concept Card -->
+            <div class="concept-card">
+                <h3>3. Live vs Static NodeLists</h3>
+                <p><code><em>document.getElementsByClassName()</em></code> returns a <strong>Live HTMLCollection</strong> that mutates automatically when DOM elements are removed. <code>document.querySelectorAll()</code> returns a <strong>Static NodeList</strong> snapshot.</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+
+            
+            <h2>The Challenge: Recursive Tree Builder</h2>
+            <p>Implement a function <code>createNestedTree(data)</code> that takes a nested data object and converts it into a nested HTML <code>&lt;ul&gt;</code> / <code>&lt;li&gt;</code> structure.</p>
+            
+            <div class="key-points-box" style="margin-top: var(--space-md);">
+                <h4>💡 STEP-BY-STEP GUIDE & HINTS</h4>
+                <ul>
+                    <li><strong>Hint 1 (Create List Elements):</strong> Start by creating a <code>&lt;ul&gt;</code> container and an <code>&lt;li&gt;</code> item using <code>document.createElement()</code>.</li>
+                    <li><strong>Hint 2 (Set Text & Append):</strong> Set <code>li.textContent = data.name</code>, then attach <code>li</code> to <code>ul</code> with <code>ul.appendChild(li)</code>.</li>
+                    <li><strong>Hint 3 (Handle Nested Children):</strong> Check if <code>data.children</code> exists and has items:
+                        <br><code style="background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 3px;">if (data.children && Array.isArray(data.children) && data.children.length > 0)</code>
+                    </li>
+                    <li><strong>Hint 4 (Recursion):</strong> Loop through each child in <code>data.children</code>, call <code>createNestedTree(child)</code>, and append the returned sub-tree to <code>li</code>!</li>
+                    <li><strong>Hint 5 (Return):</strong> Always return the parent <code>ul</code> element at the end of the function.</li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Follow the hints, review the code, and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * 🌿 CHALLENGE: Create a DOM Tree from Nested Data
+ * 
+ * Target Output HTML Structure:
+ * <ul>
+ *   <li>Root Nav
+ *     <ul>
+ *       <li>Item 1</li>
+ *       <li>Item 2
+ *         <ul>
+ *           <li>Sub-item 2.1</li>
+ *         </ul>
+ *       </li>
+ *     </ul>
+ *   </li>
+ * </ul>
+ */
+
+function createNestedTree(data) {
+    // STEP 1: Create main <ul> list container
+    const ul = document.createElement('ul');
+
+    // STEP 2: Create <li> list item & set its text content
+    const li = document.createElement('li');
+    li.textContent = data.name;
+
+    // STEP 3: Append the <li> to the <ul>
+    ul.appendChild(li);
+
+    // STEP 4: If children exist, recursively create and attach sub-trees
+    if (data.children && Array.isArray(data.children) && data.children.length > 0) {
+        data.children.forEach(child => {
+            // Call createNestedTree for each child object
+            const childSubTree = createNestedTree(child);
+            // Attach the sub-tree inside the current <li>
+            li.appendChild(childSubTree);
+        });
+    }
+
+    // STEP 5: Return the complete <ul> DOM node
+    return ul;
+}
+
+// 🧪 Test Data:
+const navData = {
+    name: "Root Nav",
+    children: [
+        { name: "Item 1" },
+        { name: "Item 2", children: [{ name: "Sub-item 2.1" }] }
+    ]
+};
+
+// Execute function and log HTML string output
+const domTree = createNestedTree(navData);
+console.log("Generated DOM Tree HTML:\n", domTree.outerHTML);
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+
+    <script src="../js/tracker.js"></script>
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

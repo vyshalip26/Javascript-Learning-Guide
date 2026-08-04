@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API & CORS </title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-lesson-id="t2-fetch">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>Fetch API & CORS Architecture</h1>
+            <br>
+            <p>The <strong>Fetch API</strong> provides a promise-based interface for making asynchronous HTTP requests across the browser network stack.</p>
+            
+            <div class="concept-card">
+                <h3>1. Fetch Error Gotchas (HTTP 404/500)</h3>
+                <p>Unlike traditional AJAX wrappers, a <code>fetch()</code> Promise does <strong>NOT reject on HTTP error statuses</strong> (like 404 or 500). It only rejects on total network failure or blocked requests. Always inspect <code>response.ok</code> (boolean) or <code>response.status</code>!</p>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. CORS & Preflight Requests</h3>
+                <p>Cross-Origin Resource Sharing (CORS) enforces browser security boundaries. Non-simple requests (e.g. custom headers like <code>Authorization</code>, or methods like <code>PUT/DELETE</code>) automatically trigger an HTTP <code>OPTIONS</code> <strong>preflight request</strong> to negotiate server permissions via <code>Access-Control-Allow-Origin</code>.</p>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Request Timeout & AbortController</h3>
+                <p>Cancel hanging requests using an <code>AbortController</code> instance linked to <code>fetch(url, { signal: controller.signal })</code>.</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            
+            <h2>The Challenge: Resilient Fetch Retry Mechanism</h2>
+            <p>Implement an async function <code>fetchWithRetry(fetchFn, maxRetries)</code> that attempts a network call up to <code>maxRetries</code> times before throwing the final network error.</p>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement fetchWithRetry and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * Implement fetchWithRetry(fetchFn, maxRetries)
+ */
+async function fetchWithRetry(fetchFn, maxRetries) {
+    let lastError;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            const response = await fetchFn();
+            if (response.ok) {
+                return response;
+            }
+            throw new Error(`HTTP Error Status: ${response.status}`);
+        } catch (err) {
+            lastError = err;
+            console.log(`Attempt ${attempt} failed: ${err.message}`);
+        }
+    }
+    throw lastError;
+}
+
+// Test mock fetch function (simulates network failure on attempt 1, succeeds on attempt 2)
+let count = 0;
+const mockFetch = async () => {
+    count++;
+    if (count < 2) throw new Error("Connection Timeout");
+    return { ok: true, status: 200, json: async () => ({ status: "connected" }) };
+};
+
+fetchWithRetry(mockFetch, 3).then(res => {
+    console.log("Fetch successfully succeeded on retry! Status:", res.status);
+});
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototypes & Inheritance </title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-lesson-id="t1-prototypes">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>Prototypes & Inheritance</h1>
+            <br>
+            <p>JavaScript is a prototype-based language. Objects inherit properties directly from other objects via a dynamic linkage known as the <strong>Prototype Chain</strong>.</p>
+            
+            <div class="concept-card">
+                <h3>1. prototype vs [[Prototype]] (__proto__)</h3>
+                <ul>
+                    <li><code>Function.prototype</code>: An object automatically attached to constructors that defines shared methods for instances created via <code>new</code>.</li>
+                    <li><code>[[Prototype]]</code> / <code>__proto__</code>: An internal pointer on every object pointing up to its parent prototype object.</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Property Delegation Lookup</h3>
+                <p>When reading <code>obj.prop</code>, JS checks <code>obj</code>. If missing, it traverses up <code>__proto__</code> -> <code>__proto__.__proto__</code> until it finds the property or hits <code>null</code> (the top of Object.prototype).</p>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Security Gotcha: Prototype Pollution</h3>
+                <p>Modifying <code>Object.prototype</code> directly pollutes every object in the application runtime. Avoid unsafe deep merges of unparsed user JSON payloads!</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            
+            <h2>The Challenge: Prototype EventEmitter</h2>
+            <p>Construct an <code>EventEmitter</code> constructor or class where the event registration methods are attached directly to <code>EventEmitter.prototype</code>:</p>
+            <ol>
+                <li><code>EventEmitter.prototype.on(event, handler)</code>: Registers an event listener callback function.</li>
+                <li><code>EventEmitter.prototype.emit(event, ...args)</code>: Triggers all registered callbacks for <code>event</code>, passing <code>args</code>.</li>
+            </ol>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement EventEmitter on prototype and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * EventEmitter constructor & prototype pattern
+ */
+function EventEmitter() {
+    this._events = {};
+}
+
+EventEmitter.prototype.on = function(event, handler) {
+    if (!this._events[event]) {
+        this._events[event] = [];
+    }
+    this._events[event].push(handler);
+};
+
+EventEmitter.prototype.emit = function(event, ...args) {
+    if (this._events[event]) {
+        this._events[event].forEach(fn => fn(...args));
+    }
+};
+
+// Test instance
+const emitter = new EventEmitter();
+emitter.on("data", (msg) => console.log("Received:", msg));
+emitter.emit("data", "Prototypal Inheritance Active!");
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

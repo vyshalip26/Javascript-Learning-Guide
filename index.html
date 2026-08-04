@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> JavaScript Learning Guide</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .hero {
+            text-align: center;
+            padding: var(--space-xl) var(--space-lg);
+            border-bottom: var(--border-thick);
+            background-color: var(--accent-magenta);
+            color: var(--cream);
+            margin-bottom: var(--space-lg);
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: var(--space-md);
+            text-shadow: 4px 4px 0px var(--bg-primary);
+            font-family: var(--font-heading);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 600;
+            max-width: 700px;
+            margin: 0 auto;
+            font-family: var(--font-body);
+        }
+
+        .roadmap-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            margin-top: var(--space-lg);
+        }
+
+        @media (max-width: 992px) {
+            .roadmap-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .track-section {
+            background: rgba(0, 0, 0, 0.2);
+            padding: var(--space-lg);
+            border: var(--border-thick);
+            border-radius: 8px;
+            box-shadow: 8px 8px 0px var(--black);
+        }
+
+        .track-header {
+            font-size: 2.2rem;
+            margin-bottom: var(--space-lg);
+            display: inline-block;
+            background: var(--cream);
+            color: var(--bg-primary);
+            padding: 10px 20px;
+            border: var(--border-thick);
+            transform: rotate(-1.5deg);
+            box-shadow: 4px 4px 0px var(--accent-magenta);
+        }
+
+        .track-section:nth-child(2) .track-header {
+            background: var(--accent-magenta);
+            color: var(--cream);
+            transform: rotate(1.5deg);
+            box-shadow: 4px 4px 0px var(--text-white);
+        }
+
+        .module-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .module-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--cream);
+            color: var(--black);
+            border: var(--border-thick);
+            padding: var(--space-md) var(--space-lg);
+            box-shadow: var(--shadow-main);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .module-item:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px var(--accent-magenta);
+        }
+
+        .module-item h3 {
+            font-size: 1.15rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+        }
+
+        .status-badge {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: bold;
+            background: var(--bg-primary);
+            color: var(--text-white);
+            padding: 6px 12px;
+            border: 2px solid var(--black);
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <!-- Track 0: JS Foundations & Basics (Beginner) -->
+    <header class="hero">
+        <h1>JavaScript LEARNING GUIDE</h1>
+        <p>A free-roam, open-access JavaScript learning platform. No login barriers. Jump into any module, execute raw code in our glossy sandbox, and track progress locally.</p>
+        <!-- Want to write a note that this guide is useful if one is already failiar with any other programing language.-->
+         <p> This guide is particularly useful if you are already familiar with a programming language like Python or Java or C++, as it will help you understand the unique concepts and syntax of JavaScript. </p>
+    </header>
+
+    <main class="container">
+        <!-- Track 0: JS Foundations & Basics (Beginner) -->
+        <section class="track-section" style="margin-bottom: var(--space-xl); background: rgba(255, 0, 127, 0.08); border-color: var(--accent-magenta);">
+            <h2 class="track-header" style="background: var(--accent-magenta); color: var(--cream);">TRACK 0: JS FOUNDATIONS &amp; BASICS</h2>
+            <div class="module-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md);">
+                <a href="lessons/track0-1-intro-and-variables.html" class="module-item glitter-node" data-lesson-id="t0-intro">
+                    <h3>0.1 JS Intro &amp; Variables</h3>
+                    <span class="status-badge">CLICK ME</span>
+                </a>
+                <a href="lessons/track0-2-datatypes.html" class="module-item glitter-node" data-lesson-id="t0-datatypes">
+                    <h3>0.2 Data Types &amp; Coercion</h3>
+                    <span class="status-badge">CLICK ME</span>
+                </a>
+                <a href="lessons/track0-3-control-flow.html" class="module-item glitter-node" data-lesson-id="t0-control-flow">
+                    <h3>0.3 Control Flow (if, switch)</h3>
+                    <span class="status-badge">CLICK ME</span>
+                </a>
+                <a href="lessons/track0-4-loops-break-continue.html" class="module-item glitter-node" data-lesson-id="t0-loops">
+                    <h3>0.4 Loops (for, while, break)</h3>
+                    <span class="status-badge">CLICK ME</span>
+                </a>
+                <a href="lessons/track0-5-functions-basics.html" class="module-item glitter-node" data-lesson-id="t0-functions">
+                    <h3>0.5 Functions from Scratch</h3>
+                    <span class="status-badge">CLICK ME</span>
+                </a>
+            </div>
+        </section>
+
+        <div class="roadmap-container">
+            <!-- Track 1: Core JS Engine -->
+            <section class="track-section">
+                <h2 class="track-header">TRACK 1: CORE JS ENGINE</h2>
+                <div class="module-list">
+                    <a href="lessons/track1-1-memory-layout.html" class="module-item glitter-node" data-lesson-id="t1-memory-layout">
+                        <h3>1. Memory Layout (Stack vs Heap)</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track1-2-hoisting.html" class="module-item glitter-node" data-lesson-id="t1-hoisting">
+                        <h3>2. Hoisting & Lexical Scope</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track1-3-closures.html" class="module-item glitter-node" data-lesson-id="t1-closures">
+                        <h3>3. Lexical Scope & Closures</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track1-4-this-keyword.html" class="module-item glitter-node" data-lesson-id="t1-this-keyword">
+                        <h3>4. The `this` Keyword Bindings</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track1-5-prototypes.html" class="module-item glitter-node" data-lesson-id="t1-prototypes">
+                        <h3>5. Prototypes & Inheritance</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track1-6-higher-order.html" class="module-item glitter-node" data-lesson-id="t1-higher-order">
+                        <h3>6. Higher-Order Functions</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track1-7-event-loop.html" class="module-item glitter-node" data-lesson-id="t1-event-loop">
+                        <h3>7. Asynchronous Event Loop</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Track 2: Browser Web Development -->
+            <section class="track-section">
+                <h2 class="track-header">TRACK 2: BROWSER WEB DEV</h2>
+                <div class="module-list">
+                    <a href="lessons/track2-1-critical-rendering.html" class="module-item glitter-node" data-lesson-id="t2-critical-rendering">
+                        <h3>1. Critical Rendering Path</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track2-2-dom-manipulation.html" class="module-item glitter-node" data-lesson-id="t2-dom-manipulation">
+                        <h3>2. DOM Navigation &amp; Manipulation</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track2-3-ui-animations.html" class="module-item glitter-node" data-lesson-id="t2-ui-animations">
+                        <h3>3. UI Animations &amp; Motion Design</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track2-4-events.html" class="module-item glitter-node" data-lesson-id="t2-events">
+                        <h3>4. Advanced Event Handling</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track2-5-storage.html" class="module-item glitter-node" data-lesson-id="t2-storage">
+                        <h3>5. Client Storage Options</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track2-6-fetch.html" class="module-item glitter-node" data-lesson-id="t2-fetch">
+                        <h3>6. Fetch API &amp; CORS Basics</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                    <a href="lessons/track2-7-performance.html" class="module-item glitter-node" data-lesson-id="t2-performance">
+                        <h3>7. Debouncing &amp; Throttling</h3>
+                        <span class="status-badge">CLICK ME</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>  
+    <script src="js/tracker.js"></script>  
+</body>
+</html>

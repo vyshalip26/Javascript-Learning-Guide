@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoisting & Lexical Scope</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .pink-bold {
+            color: var(--accent-magenta);
+            font-weight: bold;
+        }
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-lesson-id="t1-hoisting">
+
+    <div class="split-layout">
+        <!-- Content -->
+
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>Hoisting & Lexical Scope</h1>
+            <br>
+            <p>In Javascript, variable and function declarations are<strong> moved to the top</strong> of their scope during the <strong class="pink-bold">creation phase</strong>.</p>
+            <!-- Image explaining hoisting -->
+            <img src="../static/images/hoisting.png" alt="hoisting explanation" style="width: 100%; border: 2px solid var(--black); border-radius: 4px;">
+            <div class="concept-card">
+                <h3>1. var Hoisting vs let/const (TDZ)</h3>
+                <ul>
+                    <li><code>var</code>: Hoisted and initialized with <code>undefined</code>. Accessible prior to declaration without crashing!</li>
+                    <li><code>let</code> / <code>const</code>: Hoisted into memory, but left uninitialized in the <strong>Temporal Dead Zone (TDZ)</strong>. Accessing them before declaration throws a <code>ReferenceError</code>.</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Function Declarations vs Expressions</h3>
+                <ul>
+                    <li><code>function foo() {}</code> (Declaration): Entire function definition is hoisted and fully invocable before its declaration.</li>
+                    <li><code>var foo = function() {}</code> (Expression): Only the variable name <code>foo</code> is hoisted (as <code>undefined</code>). Invocations prior to assignment throw <code>TypeError: foo is not a function</code>!</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Block Scope & Variable Pollution</h3>
+                <p><code>var</code> ignores block boundaries like <code>if</code> statements and <code>for</code> loops, leaking variables to the outer function/global scope. <code>let</code> and <code>const</code> enforce strict block scoping inside <code>{ ... }</code>.</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            
+            <h2>The Challenge: Scope & TDZ Analysis</h2>
+            <p>Implement <code>scopeChallenge()</code> to demonstrate your understanding. It must return an object containing:</p>
+            <ol>
+                <li><code>hoistedVar</code>: The value of a <code>var</code> variable captured <em>before</em> its initialization (should be <code>undefined</code>).</li>
+                <li><code>tdzHandled</code>: A boolean set to <code>true</code> by catching the <code>ReferenceError</code> when attempting to access a <code>let</code> variable in its TDZ inside a try/catch block.</li>
+                <li><code>loopResult</code>: The sum of numbers 0 through 9 calculated using a block-scoped <code>let</code> loop variable (sum = 45).</li>
+            </ol>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement scopeChallenge() and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+function scopeChallenge() {
+    // 1. Capture var value before its line of assignment
+    var hoistedVar = capturedVar;
+    var capturedVar = "initialized value";
+
+    // 2. Safely trigger and handle TDZ error
+    let tdzHandled = false;
+    try {
+        // Accessing let variable before declaration
+        console.log(tdzVar);
+        let tdzVar = "tdz";
+    } catch (err) {
+        if (err instanceof ReferenceError) {
+            tdzHandled = true;
+        }
+    }
+
+    // 3. Block scoped loop calculation (0 to 9)
+    let loopResult = 0;
+    for (let i = 0; i < 10; i++) {
+        loopResult += i;
+    }
+
+    return {
+        hoistedVar: hoistedVar,
+        tdzHandled: tdzHandled,
+        loopResult: loopResult
+    };
+}
+
+console.log("Scope Challenge Result:", scopeChallenge());
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

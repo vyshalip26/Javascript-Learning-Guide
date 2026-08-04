@@ -1,0 +1,33 @@
+:root {
+  /* Colors */
+  --bg-primary: #4A001F;
+  --accent-magenta: #FF007F;
+  --text-white: #FFFFFF;
+  --cream: #FFFDD0;
+  --black: #000000;
+  --success: #39FF14; /* Neon green for validation */
+
+  /* Fonts */
+  --font-heading: 'Syne', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+
+  /* Borders & Shadows (Neo-Brutalism) */
+  --border-thick: 4px solid var(--text-white);
+  --border-thin: 2px solid var(--text-white);
+  --border-accent: 4px solid var(--accent-magenta);
+  --shadow-offset: 6px;
+  --shadow-main: var(--shadow-offset) var(--shadow-offset) 0px var(--accent-magenta);
+  --shadow-black: var(--shadow-offset) var(--shadow-offset) 0px var(--black);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+  --glass-blur: blur(12px);
+
+  /* Spacing */
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Loop </title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-lesson-id="t1-event-loop">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>The Asynchronous Event Loop</h1>
+            <br>
+            <p>JavaScript runs on a single-threaded Call Stack, but delegates non-blocking I/O operations to Web APIs and manages execution priorities via the <strong>Event Loop</strong>.</p>
+            
+            <div class="concept-card">
+                <h3>Execution Priority Lifecycle</h3>
+                <ol>
+                    <li><strong>Call Stack:</strong> Executes synchronous JS code line by line.</li>
+                    <li><strong>Microtask Queue:</strong> Holds Promise <code>.then()</code> callbacks, <code>queueMicrotask()</code>, and <code>MutationObserver</code>. <em>Flushed completely until empty</em> after the stack clears, before any render or macrotask!</li>
+                    <li><strong>Macrotask Queue (Task Queue):</strong> Holds <code>setTimeout</code>, <code>setInterval</code>, <code>setImmediate</code>, and I/O tasks. Executes <em>one task per loop tick</em>.</li>
+                </ol>
+            </div>
+
+            <div class="concept-card">
+                <h3>Microtask Starvation Risk</h3>
+                <p>Because the Event Loop processes ALL microtasks before picking the next macrotask or updating the UI render frame, recursively queuing microtasks will lock up the main thread and freeze the browser!</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            
+            <h2>The Challenge: Predictable Queue Execution Sequence</h2>
+            <p>Write a function <code>runEventLoopSequence()</code> that queues synchronous logs, microtasks, and macrotasks to return an array matching this exact sequence:</p>
+            <code>['1-sync', '2-sync', '3-microtask', '4-microtask', '5-macrotask']</code>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement runEventLoopSequence and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * Implement runEventLoopSequence()
+ * Must push items in correct priority order: Sync -> Microtasks -> Macrotask
+ */
+function runEventLoopSequence() {
+    const sequence = [];
+
+    // 1. Sync operations
+    sequence.push('1-sync');
+    sequence.push('2-sync');
+
+    // 2. Queue Microtasks (Promises / queueMicrotask)
+    Promise.resolve().then(() => {
+        sequence.push('3-microtask');
+    });
+    queueMicrotask(() => {
+        sequence.push('4-microtask');
+    });
+
+    // 3. Queue Macrotask (setTimeout)
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            sequence.push('5-macrotask');
+            resolve(sequence);
+        }, 0);
+    });
+}
+
+runEventLoopSequence().then((sequence) => {
+    console.log("Returned Sequence:", sequence);
+});
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

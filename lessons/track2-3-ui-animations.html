@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Animations &amp; Motion Design</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 340px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+        .topic-badge {
+            display: inline-block;
+            background: var(--accent-magenta);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-bottom: var(--space-xs);
+        }
+        pre {
+            background: #1e1e2e;
+            color: #f8f8f2;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body data-lesson-id="t2-ui-animations">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Browser Track</a>
+            <h1>UI Animations &amp; Motion Design</h1>
+            <br>
+            <p>Transform static web applications into living, tactile user interfaces through vector physics, smooth render loops, interactive pointer tracking, and real-time canvas graphics.</p>
+
+            <!-- Topic 1 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 1</span>
+                <h3>Introduction to Interactive Web Experiences</h3>
+                <p>Interactive web interfaces bridge code and real-world intuition. Adding subtle physical responses—like weight, inertia, elastic movement, and springiness—makes applications feel responsive and modern.</p>
+                <pre><code>// Example: Adding fluid hover physics class
+element.classList.add('physics-hover');</code></pre>
+            </div>
+
+            <!-- Topic 2 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 2</span>
+                <h3>Mouse Events &amp; Pointer Tracking</h3>
+                <p>Capture cursor position in real time using <code>mousemove</code> or <code>pointermove</code> to direct UI element orientations or particle targets.</p>
+                <pre><code>const mouse = { x: 0, y: 0 };
+window.addEventListener('pointermove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});</code></pre>
+            </div>
+
+            <!-- Topic 3 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 3</span>
+                <h3>Collision Detection Basics</h3>
+                <p>Detect when two objects intersect on screen using Axis-Aligned Bounding Box (AABB) or Euclidean Distance for circular elements.</p>
+                <pre><code>// Circle collision distance check
+function checkCollision(c1, c2) {
+    const dx = c1.x - c2.x;
+    const dy = c1.y - c2.y;
+    const distance = Math.hypot(dx, dy);
+    return distance < (c1.radius + c2.radius);
+}</code></pre>
+            </div>
+
+            <!-- Topic 4 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 4</span>
+                <h3>Gravity Simulation</h3>
+                <p>Simulate downward environmental forces by continuously adding a constant gravitational acceleration to vertical velocity (<code>vy</code>).</p>
+                <pre><code>const gravity = 0.5;
+function applyGravity(object) {
+    object.vy += gravity; // Gravity accelerates downward speed
+    object.y += object.vy; // Update position
+}</code></pre>
+            </div>
+
+            <!-- Topic 5 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 5</span>
+                <h3>Velocity &amp; Acceleration</h3>
+                <p>Velocity dictates movement speed and direction, while acceleration dictates changes in velocity over time.</p>
+                <pre><code>let x = 0, vx = 2, ax = 0.1;
+function updateMotion() {
+    vx += ax; // Acceleration updates velocity
+    x += vx;   // Velocity updates position
+}</code></pre>
+            </div>
+
+            <!-- Topic 6 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 6</span>
+                <h3>Friction &amp; Bounce Effects</h3>
+                <p>Simulate energy loss when objects bounce off screen borders or slide across surfaces by multiplying velocity by a restitution coefficient (&lt; 1.0).</p>
+                <pre><code>const bounce = -0.8; // Lose 20% energy on bounce
+const friction = 0.98; // Air resistance / friction coefficient
+
+if (y + radius >= floorY) {
+    y = floorY - radius;
+    vy *= bounce; // Invert and dampen vertical speed
+    vx *= friction; // Apply surface friction
+}</code></pre>
+            </div>
+
+            <!-- Topic 7 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 7</span>
+                <h3>Drag and Drop Mechanics</h3>
+                <p>Implement smooth drag &amp; drop by storing pointer offset on <code>pointerdown</code>, updating position on <code>pointermove</code>, and releasing on <code>pointerup</code>.</p>
+                <pre><code>let isDragging = false, offset = { x: 0, y: 0 };
+box.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    offset.x = e.clientX - box.offsetLeft;
+    offset.y = e.clientY - box.offsetTop;
+});
+window.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    box.style.left = `${e.clientX - offset.x}px`;
+    box.style.top = `${e.clientY - offset.y}px`;
+});
+window.addEventListener('pointerup', () => isDragging = false);</code></pre>
+            </div>
+
+            <!-- Topic 8 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 8</span>
+                <h3>requestAnimationFrame() Animation Loop</h3>
+                <p><code>requestAnimationFrame</code> syncs animation updates directly with the monitor's refresh rate (~60-144fps) for butter-smooth rendering.</p>
+                <pre><code>function animate() {
+    // 1. Clear frame / update state
+    updatePhysics();
+    // 2. Render frame
+    render();
+    // 3. Request next frame
+    requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);</code></pre>
+            </div>
+
+            <!-- Topic 9 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 9</span>
+                <h3>Canvas vs DOM Animations</h3>
+                <p>DOM CSS transforms excel for fewer (&lt; 50) interactive UI components. HTML5 <code>&lt;canvas&gt;</code> excels for rendering thousands of high-performance physics particles simultaneously.</p>
+                <pre><code>// Canvas render clear & draw
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+ctx.beginPath();
+ctx.arc(x, y, radius, 0, Math.PI * 2);
+ctx.fill();</code></pre>
+            </div>
+
+            <!-- Topic 10 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 10</span>
+                <h3>Particle Effects</h3>
+                <p>Spawn clusters of short-lived physical shapes with random initial velocities, colors, and shrinking opacity for spark, smoke, or firework visuals.</p>
+                <pre><code>function createSpark(x, y) {
+    return {
+        x, y,
+        vx: (Math.random() - 0.5) * 8,
+        vy: (Math.random() - 0.5) * 8,
+        life: 1.0
+    };
+}</code></pre>
+            </div>
+
+            <!-- Topic 11 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 11</span>
+                <h3>Object-Oriented JavaScript for Physics Objects</h3>
+                <p>Encapsulate physical properties (position, velocity, radius, mass) and movement methods inside clean JavaScript classes.</p>
+                <pre><code>class PhysicsBall {
+    constructor(x, y, radius) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.vx = (Math.random() - 0.5) * 4;
+        this.vy = 0;
+    }
+    update(gravity = 0.5) {
+        this.vy += gravity;
+        this.y += this.vy;
+        this.x += this.vx;
+    }
+}</code></pre>
+            </div>
+
+            <!-- Topic 12 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 12</span>
+                <h3>Performance Optimization</h3>
+                <p>Optimize frame rates by using <code>transform: translate3d()</code> to leverage GPU acceleration, object pooling to prevent garbage collection pauses, and offscreen canvas buffers.</p>
+                <pre><code>// GPU-accelerated DOM movement
+el.style.transform = `translate3d(${x}px, ${y}px, 0)`;</code></pre>
+            </div>
+
+            <!-- Topic 13 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 13</span>
+                <h3>Building a Google Gravity Clone (Step-by-Step)</h3>
+                <p>Turn UI layout elements into rigid body physics objects that drop, collide, and roll across the bottom of the viewport upon interaction.</p>
+                <pre><code>function applyGoogleGravity(elements) {
+    elements.forEach(el => {
+        el.style.position = 'absolute';
+        // Apply physics loop to el.style.top & el.style.left
+    });
+}</code></pre>
+            </div>
+
+            <!-- Topic 14 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 14</span>
+                <h3>Building Floating Buttons</h3>
+                <p>Create floating Action Buttons (FAB) that gently bob using sinusoidal wave calculations: <code>y = base + Math.sin(time) * amplitude</code>.</p>
+                <pre><code>let time = 0;
+function floatButton(btn) {
+    time += 0.05;
+    const offsetY = Math.sin(time) * 12; // 12px floating range
+    btn.style.transform = `translateY(${offsetY}px)`;
+}</code></pre>
+            </div>
+
+            <!-- Topic 15 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 15</span>
+                <h3>Exploding Text Effects</h3>
+                <p>Split heading text into individual <code>&lt;span&gt;</code> letter nodes and burst them outwards into particles upon mouse click.</p>
+                <pre><code>const letterSpan = document.createElement('span');
+letterSpan.textContent = 'A';
+// Apply radial blast velocity (vx, vy) on click event</code></pre>
+            </div>
+
+            <!-- Topic 16 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 16</span>
+                <h3>Magnetic Cursor Effect</h3>
+                <p>Attract nearby UI buttons toward the cursor when the pointer comes within a proximity threshold.</p>
+                <pre><code>const distance = Math.hypot(mouseX - btnX, mouseY - btnY);
+if (distance < 100) { // Magnetic radius
+    btn.style.transform = `translate(${(mouseX - btnX) * 0.3}px, ${(mouseY - btnY) * 0.3}px)`;
+}</code></pre>
+            </div>
+
+            <!-- Topic 17 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 17</span>
+                <h3>Falling Cards Animation</h3>
+                <p>Cascade UI card elements sequentially with staggered drop delays and subtle 3D rotational tilt.</p>
+                <pre><code>cards.forEach((card, index) => {
+    setTimeout(() => {
+        card.classList.add('falling-active');
+    }, index * 150); // Staggered cascade delay
+});</code></pre>
+            </div>
+
+            <!-- Topic 18 -->
+            <div class="concept-card">
+                <span class="topic-badge">TOPIC 18</span>
+                <h3>Interactive Landing Page Motion</h3>
+                <p>Combine parallax scroll tracking, floating dynamic background shapes, and cursor magnetic forces into a cohesive motion design system.</p>
+                <pre><code>window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+});</code></pre>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+
+            <h2>The Mini Challenge: Vector Physics Engine</h2>
+            <p>Implement a class <code>PhysicsParticle</code> that constructs a particle at <code>(x, y)</code> with initial velocities <code>(vx, vy)</code> and an <code>update(gravity, bounce)</code> method:</p>
+            <ol>
+                <li>Accelerates vertical velocity by <code>gravity</code>: <code>vy += gravity</code>.</li>
+                <li>Updates position: <code>x += vx</code> and <code>y += vy</code>.</li>
+                <li>Returns an object with updated <code>{ x, y, vx, vy }</code>.</li>
+            </ol>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement PhysicsParticle class and hit RUN.</p>
+
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * Implement PhysicsParticle class for UI motion physics
+ */
+var PhysicsParticle = class PhysicsParticle {
+    constructor(x, y, vx, vy) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+    }
+
+    update(gravity = 0.5, bounce = -0.8) {
+        // 1. Apply gravitational acceleration to vy
+        this.vy += gravity;
+
+        // 2. Update position coordinates
+        this.x += this.vx;
+        this.y += this.vy;
+
+        return { x: this.x, y: this.y, vx: this.vx, vy: this.vy };
+    }
+}
+
+// Test physics update step
+const p = new PhysicsParticle(10, 10, 5, -10);
+console.log("Initial state:", { x: p.x, y: p.y, vx: p.vx, vy: p.vy });
+
+const updatedState = p.update(0.5, -0.8);
+console.log("Step 1 (Gravity applied):", updatedState);
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

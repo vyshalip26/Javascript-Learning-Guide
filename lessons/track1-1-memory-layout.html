@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Layout </title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-lesson-id="t1-memory-layout">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>Memory Layout: Stack vs Heap</h1>
+            <br>
+            <p>JavaScript manages memory allocation automatically, split between two primary memory architectures: the <strong>Stack</strong> and the <strong>Heap</strong>.</p>
+            
+            <div class="concept-card">
+                <h3>1. The Call Stack (Primitives & Pointers)</h3>
+                <p>The Stack is a high-speed LIFO (Last In, First Out) structure. It holds static data whose size is known at compile time:</p>
+                <ul>
+                    <li><strong>Primitive Values:</strong> <code>number</code>, <code>string</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, <code>symbol</code>, <code>bigint</code>.</li>
+                    <li><strong>Memory Pointers:</strong> 64-bit reference addresses pointing to dynamic objects in the Heap.</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. The Heap (Dynamic Allocation)</h3>
+                <p>The Heap is an unorganized memory pool storing complex, dynamic data structures:</p>
+                <ul>
+                    <li>Objects, Arrays, and Functions are stored on the Heap.</li>
+                    <li>Copying an object variable (e.g., <code>let b = a</code>) only copies the <em>Stack pointer</em>, so both variables reference the exact same memory allocation on the Heap!</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Critical Takeaways: Shallow vs Deep Copy</h3>
+                <p>Methods like <code>Object.assign()</code> or the spread operator <code>{...obj}</code> only perform a <strong>shallow copy</strong>. Top-level primitives are duplicated, but nested objects still share memory addresses on the Heap. True deep cloning requires recursively creating new Heap allocations for all nested structures.</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            <img src="../static/images/staticvsheap.png" alt="Memory Layout Diagram" style="width: 100%; border: 2px solid var(--black); border-radius: 4px;">
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            <h2>The Challenge: Deep Memory Cloning</h2>
+            <p>Implement a function <code>deepClone(obj)</code> that recursively clones an input object (including nested objects and arrays) so that <strong>no Heap object references are shared</strong> between the original and the clone.</p>
+        </main>
+        <!-- Meta -->
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement the algorithm and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * Implement deepClone(obj)
+ * It must duplicate primitives and recursively instantiate new 
+ * Object/Array allocations on the Heap.
+ */
+function deepClone(obj) {
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
+    }
+    
+    // Create new Heap allocation depending on type
+    const copy = Array.isArray(obj) ? [] : {};
+
+    for (let key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            copy[key] = deepClone(obj[key]);
+        }
+    }
+    
+    return copy;
+}
+
+// Test run:
+const original = { a: 10, nested: { b: 20 }, list: [1, 2] };
+const cloned = deepClone(original);
+console.log("Original:", original);
+console.log("Cloned:", cloned);
+console.log("Is Heap reference distinct?", cloned.nested !== original.nested);
+</textarea> 
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

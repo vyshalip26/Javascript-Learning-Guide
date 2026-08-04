@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0.4 Loops, Break & Continue | JS ENGINE</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none; 
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem; 
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            /* Style for the back link */
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+        .code-block {
+            background: #1e1e24;
+            color: #50fa7b;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body data-lesson-id="t0-loops">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>0.4 Loops &amp; Jump Statements (`break`, `continue`)</h1>
+            <br>
+            <p>Loops allow you to repeat a block of code multiple times efficiently without writing repetitive code manually.</p>
+            
+            <div class="concept-card">
+                <h3>1. The Anatomy of a `for` Loop</h3>
+                <p>A standard <code>for</code> loop consists of three parts separated by semicolons:</p>
+                <div class="code-block">
+<pre>
+//  (1) Initialization ; (2) Condition ; (3) Increment/Update
+for (let i = 0; i < 5; i++) {
+    console.log("Iteration number:", i);
+}</pre>
+                </div>
+                <ul>
+                    <li><strong>Initialization:</strong> <code>let i = 0</code> sets up a counter variable.</li>
+                    <li><strong>Condition:</strong> <code>i &lt; 5</code> checked before each loop iteration.</li>
+                    <li><strong>Increment:</strong> <code>i++</code> increases <code>i</code> by 1 after each loop body finishes.</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. `while` and `do...while` Loops</h3>
+                <p>Use a <code>while</code> loop when you don't know in advance how many times to repeat:</p>
+                <div class="code-block">
+<pre>
+let energy = 100;
+while (energy > 0) {
+    console.log("Running... energy left:", energy);
+    energy -= 25; // Decrement energy towards 0
+}
+</pre>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Controlling Loop Flow: `break` vs `continue`</h3>
+                <ul>
+                    <li><code>break</code>: Immediately halts and exits the entire loop.</li>
+                    <li><code>continue</code>: Skips the rest of the current iteration and jumps straight to the next cycle.</li>
+                </ul>
+                <div class="code-block">
+<pre>
+for (let i = 1; i <= 5; i++) {
+    if (i === 3) continue; // Skip number 3
+    if (i === 5) break;    // Stop loop at 5
+    console.log("Number:", i); // Output: 1, 2, 4
+}
+</pre>
+                </div>
+            </div>
+
+            <!-- Key Points to Remember Box -->
+            <div class="key-points-box">
+                <h4><span>📌</span> KEY POINTS TO REMEMBER</h4>
+                <ul>
+                    <li><strong>`break` vs `continue`:</strong> <code>break</code> destroys the loop immediately. <code>continue</code> skips current step and moves to next step.</li>
+                    <li><strong>Preventing Infinite Loops:</strong> Always ensure the condition in a <code>while</code> loop will eventually become <code>false</code> (e.g. updating the counter inside the loop body).</li>
+                    <li><strong>Zero-Indexing:</strong> Loops commonly start counting from <code>0</code> (e.g., <code>let i = 0</code>).</li>
+                </ul>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="interactive-demo">
+                <h4>⚡ Interactive Visual: Loop Stepper &amp; Jump Control</h4>
+                <p style="font-size: 0.9rem; color: #ccc;">Run interactive loop simulations with break/continue:</p>
+                
+                <div class="interactive-controls">
+                    <button class="demo-btn" onclick="runLoopDemo('standard')">Standard for (1 to 5)</button>
+                    <button class="demo-btn" onclick="runLoopDemo('continue')">Skip Evens (continue)</button>
+                    <button class="demo-btn" onclick="runLoopDemo('break')">Stop at 3 (break)</button>
+                </div>
+
+                <div class="demo-output" id="loop-demo-output">Click a loop button above.</div>
+            </div>
+
+            <script>
+                function runLoopDemo(mode) {
+                    const out = document.getElementById('loop-demo-output');
+                    out.style.color = 'var(--success)';
+                    let logs = [];
+                    
+                    for (let i = 1; i <= 5; i++) {
+                        if (mode === 'continue' && i % 2 === 0) {
+                            logs.push(`i = ${i} -> [CONTINUE: Skipped even number]`);
+                            continue;
+                        }
+                        if (mode === 'break' && i === 3) {
+                            logs.push(`i = ${i} -> [BREAK: Exiting loop completely!]`);
+                            break;
+                        }
+                        logs.push(`i = ${i} -> Executed loop body`);
+                    }
+                    
+                    out.innerText = `Mode: ${mode.toUpperCase()}\n-------------------------\n` + logs.join('\n');
+                }
+            </script>
+        </main>
+
+        <!-- Sandbox Panel -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Test loops with break and continue:</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+// 1. Standard for loop
+console.log("--- Standard For Loop ---");
+for (let i = 1; i <= 3; i++) {
+    console.log("Count:", i);
+}
+
+// 2. Loop with continue (Skip odd numbers)
+console.log("\n--- Even Numbers Only (continue) ---");
+for (let n = 1; n <= 6; n++) {
+    if (n % 2 !== 0) {
+        continue; // Skip odds
+    }
+    console.log("Even Number:", n);
+}
+
+// 3. While loop with break
+console.log("\n--- Search Target (break) ---");
+let attempts = 1;
+while (attempts <= 10) {
+    if (attempts === 4) {
+        console.log("Target found at attempt:", attempts);
+        break; // Exit loop early
+    }
+    attempts++;
+}
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

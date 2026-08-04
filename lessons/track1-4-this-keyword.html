@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The this Keyword</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+        .hint-btn {
+            background: var(--bg-primary);
+            color: var(--cream);
+            border: 2px solid var(--black);
+            padding: 10px 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            border-radius: 4px;
+            display: block;
+            width: 100%;
+        }
+        .hint-btn:hover {
+            background: var(--accent-magenta);
+            color: #fff;
+        }
+        .hint-box {
+            background: #e7f5ff;
+            border: 2px solid #1c7ed6;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #1864ab;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body data-lesson-id="t1-this-keyword">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>The `this` Keyword Bindings</h1>
+            <br>
+            <p>Think of <code>this</code> like asking: <strong>"WHO is holding the remote control when this function runs?"</strong> In JavaScript, the owner changes depending on how the function is called!</p>
+            
+            <div class="concept-card" style="border-left: 6px solid var(--accent-magenta);">
+                <h3>👑 The 4 "Who Is This?" Rules (Precedence Order)</h3>
+                <p style="font-size: 0.95rem; margin-bottom: var(--space-sm);">When JavaScript figures out what <code>this</code> is, it checks these 4 rules in order from top boss (Rule 1) to last resort (Rule 4):</p>
+                <ol style="padding-left: 1.2rem; line-height: 1.6;">
+                    <li style="margin-bottom: 8px;">
+                        <strong>1. The Toy Factory Rule (<code>new</code>) 👑 (Highest Boss):</strong><br>
+                        When you use <code>new Robot()</code>, JavaScript creates a shiny new object and makes <code>this</code> point to that new robot!
+                    </li>
+                    <li style="margin-bottom: 8px;">
+                        <strong>2. The Bossy Rule (Explicit: <code>.call()</code>, <code>.apply()</code>, <code>.bind()</code>) 📢:</strong><br>
+                        You explicitly command JavaScript: <em>"Hey! Force <code>this</code> to be THIS specific object!"</em>
+                    </li>
+                    <li style="margin-bottom: 8px;">
+                        <strong>3. The Dot Rule (Implicit: <code>dog.bark()</code>) 👈:</strong><br>
+                        Look at the left side of the dot! When you write <code>dog.bark()</code>, whatever comes before the dot (<code>dog</code>) becomes <code>this</code>.
+                    </li>
+                    <li style="margin-bottom: 8px;">
+                        <strong>4. The Alone Rule (Default) 🌍 (Lowest Priority):</strong><br>
+                        If a function is called all by itself (like <code>bark()</code>) with no dot and no boss, <code>this</code> defaults to the big global <code>window</code> object (or <code>undefined</code> in strict mode).
+                    </li>
+                </ol>
+            </div>
+
+            <!-- DO YOU KNOW BOX -->
+            <div class="concept-card" style="background: #fff9db; border: 2px solid #e67e22;">
+                <h3 style="color: #d35400; margin-bottom: 6px;">💡 DO YOU KNOW? (The Spread Operator <code>...</code>)</h3>
+                <p>Imagine you have a <strong>bag of marbles</strong> 🎒. The spread operator (<code>...</code>) opens the bag and pours out every marble individually!</p>
+                <p style="margin-top: 6px;"><strong>How to use it in code:</strong></p>
+                <ul style="padding-left: 1.2rem; line-height: 1.5; margin-bottom: 8px;">
+                    <li><strong>Combining Lists:</strong> <code>[...bag1, ...bag2]</code> joins two arrays into one single list.</li>
+                    <li><strong>Passing Arguments:</strong> <code>fn(...myArray)</code> unpacks an array into individual inputs for a function.</li>
+                </ul>
+                <pre style="background: var(--black); color: var(--success); padding: 10px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85rem;"><code>const firstArgs = ["Welcome"];
+const secondArgs = ["!"];
+const combined = [...firstArgs, ...secondArgs]; // ["Welcome", "!"]</code></pre>
+            </div>
+
+            <div class="concept-card">
+                <h3>Arrow Functions & Method Detachment</h3>
+                <p>Arrow functions do NOT have their own <code>this</code>. They inherit <code>this</code> from wherever they were created. Passing regular methods as callbacks (e.g. <code>setTimeout(obj.method, 100)</code>) causes <strong>method detachment</strong>, losing their object link!</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            
+            <h2>The Challenge: Polyfill Function.prototype.myBind</h2>
+            <p>Implement a custom <code>myBind(context, ...boundArgs)</code> method on <code>Function.prototype</code>. It must:</p>
+            <ol style="padding-left: 1.2rem; line-height: 1.5;">
+                <li>Return a new function that calls the original function with <code>this</code> set to <code>context</code>.</li>
+                <li>Support <strong>partial application</strong> (combining arguments passed during <code>myBind</code> with arguments passed when calling the returned function).</li>
+            </ol>
+
+            <!-- HINT BUTTONS -->
+            <div style="margin-top: var(--space-md); display: flex; flex-direction: column; gap: 10px;">
+                <button class="hint-btn" onclick="toggleHint('hint1')">💡 Hint 1: Save the original function</button>
+                <div id="hint1" class="hint-box" style="display: none;">
+                    <strong>Hint 1:</strong> Inside <code>myBind</code>, save <code>const fn = this;</code> so the returned inner function remembers which function to call later!
+                </div>
+
+                <button class="hint-btn" onclick="toggleHint('hint2')">💡 Hint 2: Combine arguments with spread</button>
+                <div id="hint2" class="hint-box" style="display: none;">
+                    <strong>Hint 2:</strong> Inside the returned function <code>function(...invocationArgs)</code>, merge both argument lists into one array using spread:<br>
+                    <code>const allArgs = [...boundArgs, ...invocationArgs];</code>
+                </div>
+
+                <button class="hint-btn" onclick="toggleHint('hint3')">💡 Hint 3: Execute with .apply()</button>
+                <div id="hint3" class="hint-box" style="display: none;">
+                    <strong>Hint 3:</strong> Call <code>fn.apply(context, [...boundArgs, ...invocationArgs])</code> and return its result!
+                </div>
+            </div>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement myBind and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * Polyfill Function.prototype.myBind
+ */
+Function.prototype.myBind = function(context, ...boundArgs) {
+    const fn = this;
+    return function(...invocationArgs) {
+        return fn.apply(context, [...boundArgs, ...invocationArgs]);
+    };
+};
+
+// Test setup
+function greet(salutation, punctuation) {
+    return `${salutation}, ${this.name}${punctuation}`;
+}
+
+const user = { name: "Y2K Engineer" };
+const boundGreet = greet.myBind(user, "Welcome");
+
+console.log(boundGreet("!"));
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+
+    <script>
+        function toggleHint(id) {
+            const el = document.getElementById(id);
+            if (el.style.display === 'none' || !el.style.display) {
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
+            }
+        }
+    </script> 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

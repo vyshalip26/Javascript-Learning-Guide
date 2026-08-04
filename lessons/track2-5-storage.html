@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Storage Options</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-lesson-id="t2-storage">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>Client-Side Storage Options</h1>
+            <br>
+            <p>Browsers provide several distinct client-side storage mechanisms tailored for different persistence requirements and data scales.</p>
+            
+            <div class="concept-card">
+                <h3>Storage Mechanism Matrix</h3>
+                <ul>
+                    <li><strong>localStorage:</strong> 5-10MB, persistent across sessions, synchronous key-value strings.</li>
+                    <li><strong>sessionStorage:</strong> 5MB, destroyed when tab/window closes, synchronous key-value strings.</li>
+                    <li><strong>Cookies:</strong> 4KB, sent with every HTTP request header. Use <code>HttpOnly</code> and <code>SameSite</code> flags to mitigate XSS/CSRF!</li>
+                    <li><strong>IndexedDB:</strong> 100MB+, asynchronous NoSQL object database supporting indexes and transactions.</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>XSS Security Risk Warning</h3>
+                <p>Never store sensitive JWT tokens or secrets in <code>localStorage</code>! Any XSS vulnerability allows malicious scripts to read <code>localStorage</code> directly via <code>window.localStorage</code>.</p>
+            </div>
+
+            <hr style="border-top: var(--border-thick); margin: var(--space-lg) 0;">
+            
+            <h2>The Challenge: TTL Storage Wrapper</h2>
+            <p>Implement a <code>SafeStorage</code> object wrapping <code>localStorage</code> with automated Time-To-Live (TTL) expiration:</p>
+            <ol>
+                <li><code>setItem(key, value, ttlMs)</code>: Stores JSON payload containing <code>value</code> and an <code>expiryTimestamp</code>.</li>
+                <li><code>getItem(key)</code>: Reads payload. If <code>Date.now() > expiryTimestamp</code>, removes key and returns <code>null</code>. Otherwise returns <code>value</code>.</li>
+            </ol>
+        </main>
+
+        <!-- Sandbox -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Implement SafeStorage and hit RUN.</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+/**
+ * Implement SafeStorage with TTL expiration
+ */
+var SafeStorage = {
+    _memory: {},
+    _getStore: function() {
+        try {
+            return typeof localStorage !== 'undefined' ? localStorage : null;
+        } catch (e) {
+            return null;
+        }
+    },
+    setItem: function(key, value, ttlMs) {
+        const item = {
+            val: value,
+            expiry: Date.now() + ttlMs
+        };
+        const str = JSON.stringify(item);
+        const store = this._getStore();
+        try {
+            if (store) store.setItem(key, str);
+            else this._memory[key] = str;
+        } catch (e) {
+            this._memory[key] = str;
+        }
+    },
+    getItem: function(key) {
+        const store = this._getStore();
+        let raw = null;
+        try {
+            raw = store ? store.getItem(key) : this._memory[key];
+        } catch (e) {
+            raw = this._memory[key];
+        }
+        if (!raw) return null;
+        try {
+            const item = JSON.parse(raw);
+            if (Date.now() > item.expiry) {
+                try {
+                    if (store) store.removeItem(key);
+                } catch (e) {}
+                delete this._memory[key];
+                return null;
+            }
+            return item.val;
+        } catch (e) {
+            return null;
+        }
+    }
+};
+
+// Test setup
+SafeStorage.setItem("user_session", "active_token_99", 2000); // 2s TTL
+console.log("Immediate fetch:", SafeStorage.getItem("user_session"));
+
+SafeStorage.setItem("expired_session", "old_token", -100); // Already expired
+console.log("Expired fetch:", SafeStorage.getItem("expired_session"));
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>

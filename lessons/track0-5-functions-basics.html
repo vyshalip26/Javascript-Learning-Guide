@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0.5 Functions from Scratch | JS ENGINE</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .lesson-content {
+            padding: var(--space-xl) var(--space-lg);
+            overflow-y: auto;
+            background-color: var(--cream);
+            color: var(--bg-primary);
+            border-right: var(--border-thick);
+        }
+        .sandbox-panel {
+            padding: var(--space-lg);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: var(--border-accent);
+            color: var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            padding: var(--space-md);
+            resize: none;
+            outline: none;
+        }
+        .terminal {
+            flex-grow: 1;
+            background: var(--black);
+            color: var(--success);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border: var(--border-thick);
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .term-error { color: #FF3333; }
+        .term-info { color: var(--text-white); }
+        .term-success { color: var(--success); }
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+            font-weight: bold;
+            color: var(--accent-magenta);
+            text-transform: uppercase;
+        }
+        .concept-card {
+            background: #fff;
+            border: 2px solid var(--black);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+        .code-block {
+            background: #1e1e24;
+            color: #50fa7b;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body data-lesson-id="t0-functions">
+
+    <div class="split-layout">
+        <!-- Content -->
+        <main class="lesson-content">
+            <a href="../index.html" class="back-link">← Back to Engine</a>
+            <h1>0.5 Writing Functions &amp; Logic From Scratch</h1>
+            <br>
+            <p>A <strong>function</strong> is a reusable block of code designed to perform a specific task. Think of a function like a mini factory: you give it inputs, it processes them, and returns an output.</p>
+            
+            <div class="concept-card">
+                <h3>1. Function Structure &amp; Vocabulary</h3>
+                <ul>
+                    <li><strong>Parameters:</strong> Variables defined in the function signature to accept inputs (placeholders).</li>
+                    <li><strong>Arguments:</strong> Actual values passed into the function when invoking/calling it.</li>
+                    <li><strong>Return Statement:</strong> Outputs a value back to the caller and exits the function.</li>
+                </ul>
+                <div class="code-block"><pre>
+// Declaring a function with parameters (num1, num2)
+function calculateTotal(num1, num2) {
+    let result = num1 + num2;
+    return result; // Output
+}
+
+// Calling/Invoking function with arguments (20, 30)
+let total = calculateTotal(20, 30); // total is 50</pre>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Modern Arrow Functions (`() => {}`)</h3>
+                <p>ES6 introduced arrow functions for clean, concise syntax:</p>
+                <div class="code-block">
+                    <pre>
+// Standard Declaration
+function multiply(a, b) { return a * b; }
+
+// Arrow Function Syntax
+const multiplyArrow = (a, b) => a * b;
+            </pre>    </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Step-by-Step Blueprint: Writing Code From Scratch</h3>
+                <p>Follow these 4 simple steps whenever solving a programming problem:</p>
+                <ol style="padding-left: 1.2rem;">
+                    <li><strong>Identify Inputs &amp; Goal:</strong> What data do you have? What output do you want?</li>
+                    <li><strong>Define Function Shell:</strong> Write <code>function myTask(param1) { ... }</code></li>
+                    <li><strong>Write Internal Logic:</strong> Use operators, conditionals (<code>if</code>), or loops inside the function.</li>
+                    <li><strong>Return &amp; Test:</strong> Return the result and call your function with <code>console.log()</code>.</li>
+                </ol>
+            </div>
+
+            <!-- Key Points to Remember Box -->
+            <div class="key-points-box">
+                <h4><span>📌</span> KEY POINTS TO REMEMBER</h4>
+                <ul>
+                    <li><strong>Default Return:</strong> If a function does not have a <code>return</code> statement, it automatically returns <code>undefined</code>.</li>
+                    <li><strong>Parameters vs Arguments:</strong> Parameters are the variable names in function definition. Arguments are the real values passed when calling it.</li>
+                    <li><strong>Function Scope:</strong> Variables declared inside a function cannot be accessed outside that function.</li>
+                </ul>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="interactive-demo">
+                <h4>⚡ Interactive Visual: Function Machine</h4>
+                <p style="font-size: 0.9rem; color: #ccc;">Simulate passing inputs into a function processor:</p>
+                
+                <div class="interactive-controls">
+                    <button class="demo-btn" onclick="runFuncDemo('calculateTax', 100, 0.15)">calculateTax(100, 0.15)</button>
+                    <button class="demo-btn" onclick="runFuncDemo('formatGreeting', 'Alex', 'Morning')">formatGreeting("Alex", "Morning")</button>
+                    <button class="demo-btn" onclick="runFuncDemo('isEven', 42, null)">isEven(42)</button>
+                </div>
+
+                <div class="demo-output" id="func-demo-output">Click a function machine button above.</div>
+            </div>
+
+            <script>
+                function runFuncDemo(funcName, arg1, arg2) {
+                    const out = document.getElementById('func-demo-output');
+                    out.style.color = 'var(--success)';
+                    let result;
+                    
+                    if (funcName === 'calculateTax') {
+                        result = arg1 * (1 + arg2);
+                        out.innerText = `Function Call: calculateTax(price=${arg1}, taxRate=${arg2})\n[PROCESS]: ${arg1} * (1 + ${arg2})\n[RETURN VALUE]: $${result.toFixed(2)}`;
+                    } else if (funcName === 'formatGreeting') {
+                        result = `Good ${arg2}, ${arg1}! Welcome back.`;
+                        out.innerText = `Function Call: formatGreeting(name="${arg1}", time="${arg2}")\n[PROCESS]: String Interpolation\n[RETURN VALUE]: "${result}"`;
+                    } else if (funcName === 'isEven') {
+                        result = (arg1 % 2 === 0);
+                        out.innerText = `Function Call: isEven(num=${arg1})\n[PROCESS]: ${arg1} % 2 === 0\n[RETURN VALUE]: ${result}`;
+                    }
+                }
+            </script>
+        </main>
+
+        <!-- Sandbox Panel -->
+        <aside class="sandbox-panel">
+            <h2 style="color: var(--cream);">INTERACTIVE SANDBOX</h2>
+            <p style="color: var(--text-white); font-size: 0.9rem;">Test creating and invoking custom functions:</p>
+            
+            <textarea id="code-editor" spellcheck="false">
+// 1. Function Declaration: Calculate Grade
+function calculateGrade(score) {
+    if (score >= 90) return "A";
+    if (score >= 80) return "B";
+    if (score >= 70) return "C";
+    return "F";
+}
+
+console.log("Score 95 Grade:", calculateGrade(95));
+console.log("Score 72 Grade:", calculateGrade(72));
+
+// 2. Arrow Function: Temperature Converter (Celsius to Fahrenheit)
+const toFahrenheit = (celsius) => (celsius * 9/5) + 32;
+
+console.log("\n25°C in Fahrenheit:", toFahrenheit(25));
+console.log("0°C in Fahrenheit:", toFahrenheit(0));
+</textarea>
+
+            <button class="btn" id="run-code">RUN CODE ▶</button>
+            
+            <h3 style="color: var(--cream); margin-top: var(--space-sm);">TERMINAL OUTPUT</h3>
+            <div class="terminal" id="terminal-output"></div>
+        </aside>
+    </div>
+ 
+    <script src="../js/sandbox.js"></script>
+</body>
+</html>
