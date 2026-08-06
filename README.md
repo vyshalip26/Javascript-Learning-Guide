@@ -34,8 +34,8 @@ Javascript_learning_guide/
 Please visit the website https://vyshalip26.github.io/Javascript-Learning-Guide/
 
 
-## How was AI used in the project?
-I used chatgpt 
+## How was AI used in this project?
+I used ChatGPT as a productivity tool during the development of this project. It helped me draft explanations for certain JavaScript concepts, generate initial code examples, and suggest ideas for the website's UI and styling.
 
 ---
 
