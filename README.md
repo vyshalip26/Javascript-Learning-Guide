@@ -11,59 +11,8 @@
 
    **Track 1** focuses on how javascript works/executes behind the scenes.
 
-<<<<<<< HEAD
-No sign-ups, no paywalls, and no complicated setup. Just open it in your browser and start coding! 🎉
-
----
-
-## 🌟 What is this Project?
-
-This is an interactive, free-roam learning website that teaches you JavaScript step-by-step. 
-
-Instead of just reading boring theory, every lesson comes with:
-- 💡 **Simple Explanations**: Concepts broken down into plain English.
-- 🧪 **Interactive Sandbox**: Write and run your own code right on the page! 
-
----
-
-## 🗺️ What Will You Learn?
-
-The guide is split into 3 tracks:
-
-### 🟢 Track 0: JS Foundations & Basics
-*Great for getting your hands dirty with the basics!* 
-
-### 🟡 Track 1: Core JS Engine (Under the Hood)
-*Discover how JavaScript actually works inside your computer!* 
-
-### 🟣 Track 2: Browser Web Development & UI Motion
-*Learn how to bring web pages to life with interactive UI animations!* 
-
----
-
-## 🚀 How to Run It (Super Easy!)
-
-You don't need to install Node.js, `npm`, or any terminal tools to start!
-
-1. **Download / Clone** this project folder to your computer.
-2. Open the folder and find `index.html`.
-3. **Double-click `index.html`** to launch it in your web browser (Chrome, Firefox, Edge, Safari, etc.).
-4. *(Optional tip for VS Code users)*: Install the **Live Server** extension, right-click `index.html`, and select **"Open with Live Server"**!
-5. Start learning and coding! 🎉
----
-
-## 🧠 Who is this for?
-
-- 🎒 **Beginners**: If you're new to web development and want an easy roadmap to learn JS.
-- 🐍 **Python / Java / C++ Developers**: If you already know programming in another language, this guide will fast-track your understanding of JavaScript's unique style!
-
----
-
-## 📁 File Structure at a Glance
-=======
    **Track 2** covers how browser-based javascript concepts.
 ## 📁 File Structure 
->>>>>>> b765051d4a8bca1f03ad60798821947d83baa0e7
 
 ```text
 Javascript_learning_guide/
