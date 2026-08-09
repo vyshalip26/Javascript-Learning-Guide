@@ -31,7 +31,7 @@ Javascript_learning_guide/
 - Javascript
 
   
-## Giving it a try
+## Try it here
 
 Please visit the website https://vyshalip26.github.io/Javascript-Learning-Guide/
 
