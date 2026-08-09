@@ -1,9 +1,17 @@
-# ⚡ JavaScript Learning Guide
+# **JavaScript Learning Guide🚀**
 
-Welcome to the **JavaScript Learning Guide**! 🚀 
+ **JavaScript Learning Guide** is an interactive website where users can learn javascript by practicing concepts through hands-on challenge. So, after every concept there will be a challenge. And the challenges are already presolved. The user can hit the run button and try to understand the code or directly he/she can try to clear the code editor to write their own code. Real goal behind this challenge is to make users improve their understandings in a practical way. 
+ 
+ I divided the javascript into 3 main tracks. 
+ - **TRACK-0** : JS Foundations and basics
+ - **TRACK-1** : CORE JS ENGINE
+ - **TRACK-2** : BROWSER WEB DEV
+   
+   **Track 0** is designed for complete beginners. It covers fundamental concepts like variables, data types, operators,...etc
 
-Whether you're building your first web page or transitioning from languages like Python, Java, or C++, this guide is designed to make learning JavaScript super fun, visual, and straightforward.
+   **Track 1** focuses on how javascript works/executes behind the scenes.
 
+<<<<<<< HEAD
 No sign-ups, no paywalls, and no complicated setup. Just open it in your browser and start coding! 🎉
 
 ---
@@ -52,28 +60,33 @@ You don't need to install Node.js, `npm`, or any terminal tools to start!
 ---
 
 ## 📁 File Structure at a Glance
+=======
+   **Track 2** covers how browser-based javascript concepts.
+## 📁 File Structure 
+>>>>>>> b765051d4a8bca1f03ad60798821947d83baa0e7
 
 ```text
 Javascript_learning_guide/
-├── index.html        # 🏠 Main page with lesson roadmap
-├── css/              # 🎨 Stylesheets for colorful design
-├── js/               # ⚙️ Interactive progress tracker scripts
-├── lessons/          # 📚 Lesson pages with interactive code sandboxes
-└── README.md         # 📄 You are here!
+├── index.html        
+├── css/              
+├── js/               
+├── lessons/          
+└── README.md         
 ```
 
----
+## Tech Stack
+- HTML
+- CSS
+- Javascript
 
-## 💬 FAQ
+  
+## How to run it
 
-**Q: Do I need to create an account?**  
-A: Nope! Everything runs 100% locally on your computer.
+Please visit the website https://vyshalip26.github.io/Javascript-Learning-Guide/
 
-**Q: Will my progress save if I close the browser?**  
-A: No! Your browser is'nt tracking any progress.
 
-**Q: Can I edit the code examples?**  
-A: Absolutely! Every lesson features a live code sandbox where you can modify code and test output instantly.
+## How was AI used in this project?
+I used ChatGPT as a productivity tool during the development of this project. It helped me draft explanations for certain JavaScript concepts, generate initial code examples, and suggest ideas for the website's UI and styling.
 
 ---
 
