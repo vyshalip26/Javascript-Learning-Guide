@@ -1,6 +1,8 @@
 # **JavaScript Learning Guide🚀**
 
  **JavaScript Learning Guide** is an interactive website where users can learn javascript by practicing concepts through hands-on challenge. So, after every concept there will be a challenge. And the challenges are already presolved. The user can hit the run button and try to understand the code or directly he/she can try to clear the code editor to write their own code. Real goal behind this challenge is to make users improve their understandings in a practical way. 
+ <img width="1760" height="752" alt="image" src="https://github.com/user-attachments/assets/6555a0e2-afc7-4f18-888a-ebb85fde93c1" />
+
  
  I divided the javascript into 3 main tracks. 
  - **TRACK-0** : JS Foundations and basics
@@ -29,7 +31,7 @@ Javascript_learning_guide/
 - Javascript
 
   
-## How to run it
+## Giving it a try
 
 Please visit the website https://vyshalip26.github.io/Javascript-Learning-Guide/
 
