@@ -286,6 +286,106 @@ const LessonTests = {
     }
 };
 
+function transformTopLevelDeclarations(code) {
+    let depth = 0;
+    let inString = null;
+    let inComment = null;
+    let result = '';
+    let i = 0;
+
+    while (i < code.length) {
+        const char = code[i];
+        const nextChar = code[i + 1];
+
+        if (inComment === '//') {
+            if (char === '\n') inComment = null;
+            result += char;
+            i++;
+            continue;
+        }
+        if (inComment === '/*') {
+            if (char === '*' && nextChar === '/') {
+                inComment = null;
+                result += '*/';
+                i += 2;
+                continue;
+            }
+            result += char;
+            i++;
+            continue;
+        }
+        if (inString) {
+            if (char === '\\') {
+                result += char + (nextChar || '');
+                i += 2;
+                continue;
+            }
+            if (char === inString) {
+                inString = null;
+            }
+            result += char;
+            i++;
+            continue;
+        }
+
+        if (char === '/' && nextChar === '/') {
+            inComment = '//';
+            result += '//';
+            i += 2;
+            continue;
+        }
+        if (char === '/' && nextChar === '*') {
+            inComment = '/*';
+            result += '/*';
+            i += 2;
+            continue;
+        }
+
+        if (char === '"' || char === "'" || char === '`') {
+            inString = char;
+            result += char;
+            i++;
+            continue;
+        }
+
+        if (char === '{') {
+            depth++;
+            result += char;
+            i++;
+            continue;
+        }
+        if (char === '}') {
+            if (depth > 0) depth--;
+            result += char;
+            i++;
+            continue;
+        }
+
+        if (depth === 0) {
+            const isWordStart = (i === 0 || /[\s;]/.test(code[i - 1]));
+            if (isWordStart) {
+                const rest = code.slice(i);
+                const classMatch = rest.match(/^class\s+([a-zA-Z0-9_$]+)/);
+                if (classMatch) {
+                    result += 'var ' + classMatch[1] + ' = class ' + classMatch[1];
+                    i += classMatch[0].length;
+                    continue;
+                }
+                const letConstMatch = rest.match(/^(const|let)\s+([a-zA-Z0-9_$]+)/);
+                if (letConstMatch) {
+                    result += 'var ' + letConstMatch[2];
+                    i += letConstMatch[0].length;
+                    continue;
+                }
+            }
+        }
+
+        result += char;
+        i++;
+    }
+    return result;
+}
+
 const SandboxEngine = {
     init: function() {
         this.runBtn = document.getElementById('run-code');
@@ -408,9 +508,7 @@ const SandboxEngine = {
 `;
 
         // Transform top-level `const/let/class Foo` so evaluated symbols bind to global window object
-        const transformedUserCode = rawCode
-            .replace(/^\s*class\s+([a-zA-Z0-9_$]+)/gm, 'var $1 = class $1')
-            .replace(/^\s*(const|let)\s+([a-zA-Z0-9_$]+)/gm, 'var $2');
+        const transformedUserCode = transformTopLevelDeclarations(rawCode);
         const finalExecutionCode = storagePolyfillCode + '\n' + transformedUserCode;
 
         try {

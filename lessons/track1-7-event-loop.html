@@ -84,9 +84,10 @@
                     <li><strong>Call Stack:</strong> Executes synchronous JS code line by line.</li>
                     <li><strong>Microtask Queue:</strong> Holds Promise <code>.then()</code> callbacks, <code>queueMicrotask()</code>, and <code>MutationObserver</code>. <em>Flushed completely until empty</em> after the stack clears, before any render or macrotask!</li>
                     <li><strong>Macrotask Queue (Task Queue):</strong> Holds <code>setTimeout</code>, <code>setInterval</code>, <code>setImmediate</code>, and I/O tasks. Executes <em>one task per loop tick</em>.</li>
+                    <img src="../static/images/promise.png" placeholder="Event Loop Diagram" style="width: 100%; border: 2px solid var(--black); border-radius: 4px; margin-top: var(--space-md);">
                 </ol>
             </div>
-
+            <img src="../static/images/async.png" placeholder="Event Loop Diagram" style="width: 100%; border: 2px solid var(--black); border-radius: 4px; margin-bottom: var(--space-md);">
             <div class="concept-card">
                 <h3>Microtask Starvation Risk</h3>
                 <p>Because the Event Loop processes ALL microtasks before picking the next macrotask or updating the UI render frame, recursively queuing microtasks will lock up the main thread and freeze the browser!</p>
