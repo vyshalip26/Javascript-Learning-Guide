@@ -37,7 +37,7 @@ Please visit the website https://vyshalip26.github.io/Javascript-Learning-Guide/
 
 
 ## How was AI used in this project?
-I used ChatGPT as a productivity tool during the development of this project. It helped me to format and organize the messy code into a structured one and also it improved readdability.
+I used ChatGPT as a productivity tool during the development of this project. It helped me to format and organize the messy code into a structured one and also it improved readability.
 
 ---
 
